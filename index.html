@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Cart Page</title>
+    <style>
+        /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #A7C7E7, #FFD1DC); /* Light teal to soft coral gradient */
+    color: #333;
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation for the body */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease-in-out; /* Slide-in animation for the header */
+}
+
+header .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #6A4C93; /* Soft lavender */
+}
+
+header .cart-icon {
+    font-size: 1.8rem;
+    margin-left: 15px;
+    cursor: pointer;
+    color: #6A4C93;
+    transition: transform 0.2s ease-in-out;
+}
+
+header .cart-icon:hover {
+    transform: scale(1.2);
+}
+
+header nav a {
+    text-decoration: none;
+    color: #6A4C93; /* Soft lavender */
+    margin-left: 20px;
+    font-size: 1rem;
+    transition: color 0.3s, transform 0.3s, border-bottom 0.3s;
+}
+
+header nav a.active {
+    color: #6A4C93;
+    font-weight: bold;
+    border-bottom: 3px solid #6A4C93; /* Underline active link */
+}
+
+header nav a:hover {
+    color: #FF6F61; /* Soft coral on hover */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    animation: fadeIn 1.5s ease-out; /* Fade-in animation for container */
+}
+
+.cart-items {
+    flex: 3;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    animation: slideUp 1s ease-in-out; /* Slide-up animation for cart items */
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 2px dashed #6A4C93; /* Lavender border */
+    animation: fadeIn 0.5s ease-in-out; /* Fade-in animation for each cart item */
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid #6A4C93;
+    transition: transform 0.3s ease;
+}
+
+.cart-item img:hover {
+    transform: scale(1.1); /* Hover effect on the image */
+}
+
+.cart-item-details {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.cart-item-details h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.cart-item-details p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.cart-item-quantity input {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #F7F7F7; /* Light grey background */
+    transition: background-color 0.3s ease;
+}
+
+.cart-item-quantity input:focus {
+    background-color: #FFEBEB; /* Soft red when focused */
+}
+
+.cart-item-remove {
+    cursor: pointer;
+    color: #FF6F61; /* Soft coral */
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.cart-item-remove:hover {
+    transform: scale(1.2);
+    color: #D9534F; /* Darker coral on hover */
+}
+
+.cart-totals {
+    flex: 1;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    animation: slideUp 1s ease-in-out; /* Slide-up animation for cart totals */
+}
+
+.cart-totals h3 {
+    margin-bottom: 20px;
+    color: #6A4C93; /* Soft lavender */
+}
+
+.cart-totals p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.checkout-button {
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #FF6F61, #F7A8B8); /* Coral to light pink gradient */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.checkout-button:hover {
+    background: linear-gradient(135deg, #F7A8B8, #FF6F61);
+    transform: scale(1.1); /* Button grows slightly when hovered */
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .cart-items,
+    .cart-totals {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ShopCart</div>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">Cart</a>
+            <span class="cart-icon">🛒</span>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="cart-items" id="cart-items">
+            <h2>Your Cart</h2>
+            <!-- Items will be dynamically added here -->
+        </div>
+        <div class="cart-totals" id="cart-totals">
+            <h3>Cart Totals</h3>
+            <p><span>Subtotal:</span> <span id="subtotal">₹0.00</span></p>
+            <p><span>Total:</span> <span id="total">₹0.00</span></p>
+            <a href="#" class="checkout-button">Check Out</a>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://cdn.shopify.com/s/files/1/0883/2188/4479/files/apiCartData.json?v=1728384889';
+
+        const cartItemsContainer = document.getElementById('cart-items');
+        const subtotalElement = document.getElementById('subtotal');
+        const totalElement = document.getElementById('total');
+
+        let cartData = [];
+
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+            }).format(amount / 100);
+        };
+
+        const calculateTotals = () => {
+            const subtotal = cartData.reduce((acc, item) => acc + item.quantity * item.price, 0);
+            subtotalElement.textContent = formatCurrency(subtotal);
+            totalElement.textContent = formatCurrency(subtotal);
+        };
+
+        const renderCartItems = () => {
+            cartItemsContainer.innerHTML = '<h2>Your Cart</h2>';
+
+            cartData.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <h4>${item.title}</h4>
+                        <p>${formatCurrency(item.price)}</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <input type="number" value="${item.quantity}" min="1" data-id="${item.id}">
+                    </div>
+                    <div class="cart-item-remove" data-id="${item.id}">🗑️</div>
+                `;
+
+                cartItemsContainer.appendChild(itemElement);
+            });
+        };
+
+        const fetchCartData = async () => {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                cartData = data.items;
+                renderCartItems();
+                calculateTotals();
+            } catch (error) {
+                console.error('Error fetching cart data:', error);
+            }
+        };
+
+        cartItemsContainer.addEventListener('change', (e) => {
+            if (e.target.type === 'number') {
+                const id = e.target.dataset.id;
+                const newQuantity = parseInt(e.target.value);
+                const item = cartData.find(item => item.id == id);
+                if (item) {
+                    item.quantity = newQuantity;
+                    calculateTotals();
+                }
+            }
+        });
+
+        cartItemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('cart-item-remove')) {
+                const id = e.target.dataset.id;
+                cartData = cartData.filter(item => item.id != id);
+                renderCartItems();
+                calculateTotals();
+            }
+        });
+
+        fetchCartData();
+
+        const navLinks = document.querySelectorAll('header nav a');
+        const setActiveNavLink = (clickedLink) => {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            clickedLink.classList.add('active');
+        };
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                setActiveNavLink(e.target);
+            });
+        });
+    </script>
+</body>
+</html>
